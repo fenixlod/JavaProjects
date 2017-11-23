@@ -8,9 +8,5 @@ public class BooksApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BooksApplication.class, args);
-		initialiseDB();
-	}
-
-	private static void initialiseDB() {		
 	}
 }

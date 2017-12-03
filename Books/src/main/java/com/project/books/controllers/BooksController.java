@@ -40,7 +40,7 @@ public class BooksController {
 	public ResponseEntity<?> getBookById(@RequestParam(value = "id",defaultValue = "0") int id) {
 		Book book = bookService.getById(id);
 		
-		if(book == null)
+		if(!book.isValid())
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		
 		return new ResponseEntity<Book>(book, HttpStatus.OK);

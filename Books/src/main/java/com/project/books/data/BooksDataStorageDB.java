@@ -8,7 +8,6 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.project.books.models.Book;
@@ -26,17 +25,7 @@ public class BooksDataStorageDB implements IBooksDataStorage {
 	public List<Book> getAllBooks() {
 		try {
 			String sql = "SELECT * FROM books";
-			List<Book> allBooks = dbTemplate.query(sql, new RowMapper<Book>() {
-		 
-		        @Override
-		        public Book mapRow(ResultSet rs, int rowNum) throws SQLException {
-		        	Book aBook = new Book();
-		        	aBook.setId(rs.getInt("id"));
-		        	aBook.setName(rs.getString("name"));
-		        	aBook.setAutor(rs.getString("author"));
-		            return aBook;
-		        }
-		    });
+			List<Book> allBooks = dbTemplate.query(sql, new BookDBRowMapper());
 			return allBooks;
 		}
 		catch(DataAccessException e) {
@@ -48,21 +37,7 @@ public class BooksDataStorageDB implements IBooksDataStorage {
 	public Book getBookById(int id) {
 		try {
 			String sqlQuery = "SELECT * FROM books WHERE id=" + id;
-			Book foundBook = dbTemplate.query(sqlQuery, new ResultSetExtractor<Book>() {
-
-				@Override
-				public Book extractData(ResultSet rs) throws SQLException, DataAccessException {
-					if(rs.next()) {
-						Book fBook = new Book();
-						fBook.setId(rs.getInt("id"));
-						fBook.setName(rs.getString("name"));
-						fBook.setAutor(rs.getString("author"));
-						return fBook;
-					}
-					else
-						return null;
-				}
-			});
+			Book foundBook = dbTemplate.query(sqlQuery, new BookDBExtractor());
 			return foundBook;
 		}
 		catch(DataAccessException e) {

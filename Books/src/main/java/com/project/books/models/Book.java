@@ -4,6 +4,12 @@ public class Book {
 	private int id;
 	private String name;
 	private String autor;
+	private boolean valid;
+	
+	public Book() {
+		id = 0;
+		valid = true;
+	}
 	
 	public String getName() {
 		return name;
@@ -22,5 +28,13 @@ public class Book {
 	}
 	public void setAutor(String autor) {
 		this.autor = autor;
+	}
+
+	public boolean isValid() {
+		return valid;
+	}
+
+	public void setValid(boolean valid) {
+		this.valid = valid;
 	}
 }
